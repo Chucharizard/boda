@@ -4,7 +4,7 @@ from datetime import datetime
 import uuid
 
 app = Flask(__name__)
-app.secret_key = 'tu_clave_secreta_aqui'  # Cambia esto por una clave segura
+app.secret_key = 'panaderosxd' 
 
 # Función para obtener conexión a la base de datos
 def get_db_connection():

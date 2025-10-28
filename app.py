@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, flash, mak
 import sqlite3
 from datetime import datetime
 import uuid
+import os
 
 app = Flask(__name__)
-app.secret_key = 'panaderosxd' 
+app.secret_key = os.getenv('SECRET_KEY', 'default_secret')
 
 # Función para obtener conexión a la base de datos
 def get_db_connection():
@@ -101,4 +102,4 @@ def lista_invitados():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)

@@ -170,7 +170,7 @@
         {% if invitados %}
             {% for invitado in invitados %}
             <div class="invitado-item">
-                <div class="invitado-numero">#{{ loop.index }}</div>
+                <div class="invitado-numero">#{{ invitado['id'] }}</div>
                 <div class="invitado-info">
                     <div class="invitado-nombre">{{ invitado['nombre'] }}</div>
                     <div class="invitado-fecha">

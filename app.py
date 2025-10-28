@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, make_response
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import uuid
 import os
 
@@ -77,8 +77,11 @@ def registrar():
             flash(f'Este dispositivo ya registró la asistencia de: {existe["nombre"]}', 'error')
             return redirect(url_for('index'))
         
-        # Insertar el nuevo registro
-        conn.execute('INSERT INTO invitados (nombre, device_id) VALUES (?, ?)', (nombre, device_id))
+        # Insertar el nuevo registro con hora de Bolivia (UTC-4)
+        bolivia_tz = timezone(timedelta(hours=-4))
+        fecha_bolivia = datetime.now(bolivia_tz).strftime('%Y-%m-%d %H:%M:%S')
+        conn.execute('INSERT INTO invitados (nombre, device_id, fecha_registro) VALUES (?, ?, ?)', 
+                     (nombre, device_id, fecha_bolivia))
         conn.commit()
         conn.close()
         

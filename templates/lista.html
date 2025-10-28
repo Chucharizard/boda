@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Invitados{% endblock %}
+
+{% block styles %}
+.admin-header {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    text-align: center;
+}
+
+.admin-title {
+    font-size: 36px;
+    color: #d4af37;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.admin-subtitle {
+    color: #666;
+    font-size: 16px;
+}
+
+.stats {
+    background: linear-gradient(135deg, #d4af37, #f4e4c1);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.stats-number {
+    font-size: 48px;
+    font-weight: 600;
+    color: #333;
+}
+
+.stats-label {
+    font-size: 18px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.invitados-list {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.list-header {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #d4af37;
+}
+
+.invitado-item {
+    padding: 20px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border-left: 4px solid #d4af37;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invitado-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.invitado-info {
+    flex: 1;
+}
+
+.invitado-nombre {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.invitado-fecha {
+    font-size: 14px;
+    color: #888;
+}
+
+.invitado-numero {
+    font-size: 24px;
+    font-weight: 600;
+    color: #d4af37;
+    margin-right: 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.empty-text {
+    font-size: 18px;
+}
+
+.btn-back {
+    display: inline-block;
+    background: #333;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    background: #555;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .admin-title {
+        font-size: 28px;
+    }
+    
+    .stats-number {
+        font-size: 36px;
+    }
+    
+    .invitado-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .invitado-numero {
+        margin-bottom: 10px;
+    }
+}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="admin-header">
+        <h1 class="admin-title">Lista de Invitados</h1>
+        <p class="admin-subtitle">Panel de Administración</p>
+    </div>
+
+    <div class="stats">
+        <div class="stats-number">{{ invitados|length }}</div>
+        <div class="stats-label">Confirmados</div>
+    </div>
+
+    <div class="invitados-list">
+        <h2 class="list-header">Asistentes Registrados</h2>
+        
+        {% if invitados %}
+            {% for invitado in invitados %}
+            <div class="invitado-item">
+                <div class="invitado-numero">#{{ loop.index }}</div>
+                <div class="invitado-info">
+                    <div class="invitado-nombre">{{ invitado['nombre'] }}</div>
+                    <div class="invitado-fecha">
+                        Registrado el {{ invitado['fecha_registro'][:10] }} a las {{ invitado['fecha_registro'][11:16] }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <div class="empty-text">Aún no hay invitados registrados</div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div style="text-align: center;">
+        <a href="{{ url_for('index') }}" class="btn-back">← Volver a la invitación</a>
+    </div>
+</div>
+{% endblock %}

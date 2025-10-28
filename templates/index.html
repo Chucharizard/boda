@@ -1,0 +1,597 @@
+{% extends "base.html" %}
+
+{% block title %}Invitación de Boda{% endblock %}
+
+{% block styles %}
+body {
+    background: linear-gradient(135deg, #f8e9f0 0%, #b1c4fd 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Fondo animado con corazones */
+.hearts-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 20px;
+    color: rgba(237, 103, 174, 0.6);
+    animation: float-up linear infinite;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+@keyframes float-up {
+    0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg) scale(0.8);
+    }
+    10% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-110vh) rotate(360deg) scale(1.3);
+    }
+}
+
+.heart:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: 0s; font-size: 28px; }
+.heart:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; font-size: 22px; }
+.heart:nth-child(3) { left: 30%; animation-duration: 20s; animation-delay: 4s; font-size: 26px; }
+.heart:nth-child(4) { left: 40%; animation-duration: 16s; animation-delay: 1s; font-size: 24px; }
+.heart:nth-child(5) { left: 50%; animation-duration: 19s; animation-delay: 3s; font-size: 30px; }
+.heart:nth-child(6) { left: 60%; animation-duration: 17s; animation-delay: 5s; font-size: 23px; }
+.heart:nth-child(7) { left: 70%; animation-duration: 21s; animation-delay: 2.5s; font-size: 27px; }
+.heart:nth-child(8) { left: 80%; animation-duration: 18s; animation-delay: 4.5s; font-size: 25px; }
+.heart:nth-child(9) { left: 90%; animation-duration: 16s; animation-delay: 1.5s; font-size: 24px; }
+.heart:nth-child(10) { left: 15%; animation-duration: 19s; animation-delay: 3.5s; font-size: 26px; }
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+.invitation-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 8px 32px 0 rgba(237, 103, 174, 0.37);
+    padding: 38px 22px;
+    margin: 40px 0;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    backdrop-filter: blur(4px) saturate(120%);
+    -webkit-backdrop-filter: blur(4px) saturate(120%);
+    animation: fadeUp 1.2s cubic-bezier(.82,.01,.41,1.03) 0.2s both;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.invitation-card::before {
+    content: '';
+    position: absolute;
+    top: -45px; left: 50%; transform: translateX(-50%);
+    width: 320px; height: 90px;
+    background: radial-gradient(circle, rgba(227, 159, 204, 0.5) 47%, transparent 100%);
+    opacity: 0.4;
+    z-index: 0;
+}
+.ornament {
+    font-size: 54px;
+    color: #b489e1;
+    margin-bottom: 12px;
+    line-height: 1;
+    letter-spacing: 8px;
+}
+.title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5em;
+    color: #ed67ae;
+    margin-bottom: 18px;
+    text-shadow: 0 2px 18px #ffdbe2;
+    letter-spacing: 2px;
+}
+.subtitle {
+    font-size: 1.1em;
+    color: #7e47c7;
+    font-weight: 500;
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.details {
+    margin: 20px auto 16px auto;
+    padding: 22px 10px;
+    background: rgba(243, 239, 250, 0.5);
+    border-radius: 13px;
+    border-left: 3px solid #ed67ae;
+    font-family: 'Montserrat', sans-serif;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.details p {
+    font-size: 1.07em;
+    line-height: 2;
+    color: #663366;
+    text-shadow: 0 1px 10px rgba(255, 255, 255, 0.8);
+}
+.details strong {
+    color: #ed67ae;
+    font-weight: 700;
+}
+.divider {
+    width: 90px;
+    height: 3px;
+    background: linear-gradient(90deg,#e39fcc,#ed67ae);
+    margin: 22px auto;
+    border-radius:2px;
+}
+.hearts {
+    font-size: 2em;
+    color: #ed67ae;
+    margin: 14px 0 18px 0;
+    animation: popHeart 1s infinite alternate;
+}
+@keyframes popHeart {
+    0% {transform: scale(1);}
+    100% {transform: scale(1.13);}
+}
+.names {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.1em;
+    color: #8d3de8;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+/* Cuenta regresiva */
+.countdown-section {
+    margin: 25px 0;
+    padding: 20px 15px;
+    background: rgba(237, 103, 174, 0.3);
+    border-radius: 15px;
+    border: 2px solid rgba(237, 103, 174, 0.3);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.countdown-title {
+    font-size: 1em;
+    color: #8d3de8;
+    font-weight: 600;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.countdown-box {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px 8px;
+    min-width: 65px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 15px rgba(237, 103, 174, 0.15);
+}
+
+.countdown-number {
+    font-size: 2em;
+    font-weight: 700;
+    color: #ad3b78ff;
+    display: block;
+    line-height: 1;
+    text-shadow: 0 2px 10px rgba(237, 103, 174, 0.3);
+}
+
+.countdown-label {
+    font-size: 0.75em;
+    color: #8d3de8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    display: block;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .countdown-box {
+        min-width: 60px;
+        padding: 10px 6px;
+    }
+    .countdown-number {
+        font-size: 1.6em;
+    }
+    .countdown-label {
+        font-size: 0.7em;
+    }
+}
+.form-section {
+    margin-top: 32px;
+    padding-top: 25px;
+    border-top: 1px solid #e2d4e2;
+}
+.form-title {
+    font-size: 1.12em;
+    color: #7e47c7;
+    margin-bottom: 9px;
+    font-weight: 700;
+    letter-spacing:1px;
+}
+.form-description {
+    color: #888;
+    font-size:1em;
+    margin-bottom: 17px;
+}
+.form-group {
+    margin-bottom: 12px;
+}
+.form-input {
+    width: 100%;
+    padding: 13px 18px;
+    font-size: 1em;
+    border: 2px solid rgba(227, 159, 204, 0.5);
+    border-radius: 13px;
+    transition: .3s;
+    font-family: 'Montserrat', sans-serif;
+    background: rgba(255, 249, 254, 0.2);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    box-shadow: 0 4px 12px rgba(186, 111, 194, 0.15);
+}
+.form-input:focus {
+    outline: none;
+    border-color: #ed67ae;
+    box-shadow: 0 0 0 3px rgba(237, 103, 174, 0.4), 0 4px 15px rgba(186, 111, 194, 0.25);
+    background: rgba(255, 249, 254, 0.35);
+}
+.btn-submit {
+    background: linear-gradient(135deg, #ed67ae 40%, #8d3de8 100%);
+    color: white;
+    padding: 15px 42px;
+    font-size: 1.02em;
+    border: none;
+    border-radius: 38px;
+    cursor: pointer;
+    transition: .27s;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px #8d3de899;
+    box-shadow: 0 6px 22px rgba(237, 103, 174, 0.21);
+}
+.btn-submit:hover {
+    transform: translateY(-2px) scale(1.07);
+    box-shadow: 0 12px 36px #ed67ae4c;
+}
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.btn-submit:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.btn-submit:disabled:hover {
+    transform: none;
+}
+
+.registered-message {
+    background: linear-gradient(135deg, rgba(232, 245, 233, 0.15) 0%, rgba(243, 229, 245, 0.15) 100%);
+    border: 2px solid rgba(237, 103, 174, 0.5);
+    border-radius: 20px;
+    padding: 28px 18px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(237, 103, 174, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.registered-message h3 {
+    color: #8d3de8;
+    font-size: 1.35em;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.registered-message p {
+    color: #663366;
+    font-size: 1em;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.registered-name {
+    font-weight: 700;
+    color: #ed67ae;
+    font-size: 1.3em;
+    margin: 8px 0;
+    text-shadow: 0 1px 8px #ffdbe2;
+}
+
+.flash-messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.flash {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    animation: slideIn 0.4s ease-out;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.flash.success {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(139, 195, 74, 0.9));
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flash.error {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.9), rgba(233, 30, 99, 0.9));
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .invitation-card {
+        padding: 20px 6px;
+        margin-top: 16px;
+        border-radius:20px;
+    }
+    .title { font-size: 1.55em;}
+    .names { font-size: 1.23em;}
+    .subtitle{ font-size:1em;}
+    .form-section{padding-top:10px;}
+    .details p{font-size:1em;}
+    .btn-submit{padding:12px 18px; font-size:0.98em;}
+    .flash-messages {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    .registered-message {
+        padding: 20px 12px;
+    }
+    .registered-message h3 {
+        font-size: 1.15em;
+    }
+    .registered-name {
+        font-size: 1.1em;
+    }
+}
+{% endblock %}
+
+{% block content %}
+<!-- Fondo animado con corazones -->
+<div class="hearts-background">
+    <div class="heart">💕</div>
+    <div class="heart">💖</div>
+    <div class="heart">💗</div>
+    <div class="heart">💝</div>
+    <div class="heart">💓</div>
+    <div class="heart">💕</div>
+    <div class="heart">💖</div>
+    <div class="heart">💗</div>
+    <div class="heart">💝</div>
+    <div class="heart">💓</div>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="invitation-card">
+        <div class="ornament">💐</div>
+        <div class="names">Guaton & Guatona</div>
+        <h1 class="title">¡Nuestra Boda!</h1>
+        <div class="subtitle">Nos casamos</div>
+        <div class="divider"></div>
+        <div class="hearts">❤ ❤ ❤</div>
+        
+        <!-- Cuenta regresiva -->
+        <div class="countdown-section">
+            <div class="countdown-title">Faltan</div>
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <span class="countdown-number" id="days">0</span>
+                    <span class="countdown-label">Días</span>
+                </div>
+                <div class="countdown-box">
+                    <span class="countdown-number" id="hours">0</span>
+                    <span class="countdown-label">Horas</span>
+                </div>
+                <div class="countdown-box">
+                    <span class="countdown-number" id="minutes">0</span>
+                    <span class="countdown-label">Min</span>
+                </div>
+                <div class="countdown-box">
+                    <span class="countdown-number" id="seconds">0</span>
+                    <span class="countdown-label">Seg</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="details">
+            <p><strong>Fecha:</strong> Sábado, 1 de Noviembre de 2025</p>
+            <p><strong>Hora:</strong> 6:00 PM</p>
+            <p><strong>Lugar:</strong> Roblox</p>
+            <p><strong>Dirección:</strong> Por verse</p>
+        </div>
+        <div class="divider"></div>
+        
+        <div class="form-section">
+            {% if ya_registrado %}
+                <div class="registered-message">
+                    <h3>✓ Asistencia Confirmada</h3>
+                    <p>Este dispositivo ya registró la asistencia de:</p>
+                    <p class="registered-name">{{ nombre_registrado }}</p>
+                    <p style="margin-top: 12px; font-size: 0.9em; color: #888;">
+                        Si necesitas hacer cambios, contacta al organizador del evento.
+                    </p>
+                </div>
+            {% else %}
+                <h2 class="form-title">Confirma tu Asistencia</h2>
+                <p class="form-description">Nos encantaría contar contigo en este día tan especial 😍</p>
+                <form method="POST" action="{{ url_for('registrar') }}" id="registroForm">
+                    <div class="form-group">
+                        <input 
+                            type="text" 
+                            name="nombre" 
+                            id="nombreInput"
+                            class="form-input" 
+                            placeholder="Tu nombre completo"
+                            required
+                            maxlength="100"
+                        >
+                    </div>
+                    <button type="submit" class="btn-submit" id="btnSubmit">Confirmar Asistencia</button>
+                </form>
+            {% endif %}
+        </div>
+        
+        <div class="ornament" style="margin-top: 32px;">💍</div>
+    </div>
+</div>
+
+<script>
+    // Auto-ocultar mensajes flash después de 5 segundos
+    setTimeout(function() {
+        const flashMessages = document.querySelectorAll('.flash');
+        flashMessages.forEach(function(message) {
+            message.style.animation = 'slideIn 0.3s ease-out reverse';
+            setTimeout(function() {
+                message.remove();
+            }, 300);
+        });
+    }, 5000);
+
+    // Protección adicional con localStorage
+    (function() {
+        const form = document.getElementById('registroForm');
+        if (!form) return; // Si ya está registrado, no hay formulario
+        
+        const nombreInput = document.getElementById('nombreInput');
+        const btnSubmit = document.getElementById('btnSubmit');
+        
+        // Verificar si ya se registró desde este dispositivo
+        const yaRegistrado = localStorage.getItem('boda_registrado');
+        const nombreRegistrado = localStorage.getItem('boda_nombre');
+        
+        if (yaRegistrado === 'true' && nombreRegistrado) {
+            // Deshabilitar el formulario
+            nombreInput.disabled = true;
+            btnSubmit.disabled = true;
+            nombreInput.value = nombreRegistrado;
+            nombreInput.placeholder = `Ya registrado como: ${nombreRegistrado}`;
+        }
+        
+        // Al enviar el formulario, guardar en localStorage
+        form.addEventListener('submit', function(e) {
+            const nombre = nombreInput.value.trim();
+            if (nombre) {
+                localStorage.setItem('boda_registrado', 'true');
+                localStorage.setItem('boda_nombre', nombre);
+            }
+        });
+    })();
+
+    // Cuenta regresiva
+    (function() {
+        // Fecha objetivo: Sábado 1 de Noviembre de 2025 a las 6:00 PM
+        const weddingDate = new Date('2025-11-01T18:00:00').getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            
+            // Si ya pasó la fecha
+            if (distance < 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                document.querySelector('.countdown-title').textContent = '¡Es hoy!';
+                return;
+            }
+            
+            // Calcular días, horas, minutos y segundos
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Actualizar los elementos
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+        
+        // Actualizar inmediatamente
+        updateCountdown();
+        
+        // Actualizar cada segundo
+        setInterval(updateCountdown, 1000);
+    })();
+</script>
+{% endblock %}
